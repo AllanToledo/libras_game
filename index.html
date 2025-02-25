@@ -60,7 +60,7 @@ html, body {
 	flex-direction: column;
 	width: 100%;
 	height: 100%;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
 }
 
@@ -103,6 +103,30 @@ html, body {
 	flex-direction: column;
 	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 	margin: 1cm;
+	align-items: center;
+}
+
+.placar-row {
+	display: flex;
+	flex-direction: row;
+	width: fit-content;
+}
+.placar-box {
+	display: flex;
+	flex-direction: column;
+	margin: 1mm;
+	background-color: green;
+	border-radius: 2mm;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+	padding: 2mm;
+	width: 2cm;
+	height: 1cm;
+	align-items: center;
+	justify-content: center;
+}
+
+.bg-vermelho {
+	background-color: red;
 }
 
 .titulo {
@@ -113,8 +137,22 @@ html, body {
 
 .pontuacao { 
 	width: 100%;
-	text-align: left;
+	text-align: center;
 	font-size: 0.5cm;
+	font-family: 'Courier New', Courier, monospace;
+	color: white;
+}
+
+.pontuacao-numerica {
+	width: 100%;
+	text-align: center;
+	font-size: 0.5cm;
+	font-family: 'Courier New', Courier, monospace;
+	color: white;
+}
+
+.txt-preto {
+	color: black;
 }
 
 @keyframes erro {
@@ -130,16 +168,52 @@ html, body {
 	animation-timing-function: ease-in-out;
 }
 
+.descricao {
+	display: flex;
+	width: 15cm;
+	text-align: center;
+	height: fit-content;
+	flex-direction: column;
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	margin: 2mm;
+}
+
+.fundo {
+	margin-bottom: 2cm;
+}
+
+.game { 
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
 </style>
 <body onload="main();" id="body">
-	<div class="placar">
-		<div class="titulo">Placar</div>
-		<div class="pontuacao" id="acertos">Acertos: 0</div>
-		<div class="pontuacao" id="erros">Erros: 0</div>
-		<div class="pontuacao" id="tempo_medio"></div>
+	<div id="empty"></div>
+	<div class="game" id="game">
+		<div class="placar">
+			<div class="titulo">Libras Game!</div>
+			<div class="placar-row">
+				<div class="placar-box">
+					<div class="pontuacao">Acertos</div>
+					<div class="pontuacao-numerica" id="acertos">0</div>
+				</div>
+				<div class="placar-box bg-vermelho">
+					<div class="pontuacao">Erros</div>
+					<div class="pontuacao-numerica" id="erros">0</div>
+				</div>
+			</div>
+			<div class="pontuacao txt-preto" id="tempo_medio"></div>
+		</div>
+		<div class="libras" id="sinais"></div>
+		<div class="libras" id="tentativa"></div>
 	</div>
-	<div class="libras" id="sinais"></div>
-	<div class="libras" id="tentativa"></div>
+	<div id="credits">
+		<div class="descricao"><p>Neste jogo, você precisa escrever o nome representado pelos sinais.</p></div>
+		<div><a class="descricao fundo" href="https://github.com/AllanToledo/libras_game">desenvolvido por Allan Toledo</a></div>	
+	</div>
 </body>
 <script>
 
@@ -206,7 +280,7 @@ function atualiza_tempo_medio() {
 	ultimo_tempo = tempo_medio;
 
 	var tempoMedioDiv = document.getElementById("tempo_medio");
-	tempoMedioDiv.innerText = "Tempo medio (letra): " + tempo_medio.toFixed(2) + "s";
+	tempoMedioDiv.innerText = "Tempo médio (letra): " + tempo_medio.toFixed(2) + "s";
 	
 }
 
@@ -215,13 +289,13 @@ function atualiza_placar(acerto) {
 		acertos += 1;
 
 		var acertosDiv = document.getElementById("acertos");
-		acertosDiv.innerText = "Acertos: " + acertos;
+		acertosDiv.innerText = acertos;
 
 	} else {
 		erros += 1;
 
 		var errosDiv = document.getElementById("erros");
-		errosDiv.innerText = "Erros: " + erros;
+		errosDiv.innerText = erros;
 	}
 }
 
