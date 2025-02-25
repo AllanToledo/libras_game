@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+html, body {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+}
+
+.libras {
+	display: flex;
+	flex-direction: row;
+	height: fit-content;
+	width: fit-content;
+	padding: 0;
+}
+
+.alfabeto {
+	width: 2cm;
+	margin: 5mm;
+}
+
+.letra {
+	width: 2cm;
+	font-size: 2cm;
+	margin: 5mm;
+	text-align: center;
+}
+
+@keyframes cursor_animation {
+	0% { opacity: 1;}
+	50% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+.cursor {
+	animation-name: cursor_animation;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+}
+
+.placar { 
+	position: fixed;
+	top: 5cm;
+	left: calc(50% - 2.5cm);
+	display: flex;
+	width: 5cm;
+	height: fit-content;
+	flex-direction: column;
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.titulo {
+	width: 100%;
+	text-align: center;
+	font-size: 1cm;
+}
+
+.pontuacao { 
+	width: 100%;
+	text-align: left;
+	font-size: 0.5cm;
+}
+
+@keyframes erro {
+	0% { transform: translate(0, 0);}
+	50% { transform: translate(1%, 0);}
+	100% { transform: translate(-1%, 0);}
+}
+
+.erro { 
+	animation-name: erro;
+	animation-duration: 50ms;
+	animation-iteration-count: 3;
+	animation-timing-function: ease-in-out;
+}
+
+</style>
+<body onload="main();" id="body">
+	<div class="placar">
+		<div class="titulo">Placar</div>
+		<div class="pontuacao" id="acertos">Acertos: 0</div>
+		<div class="pontuacao" id="erros">Erros: 0</div>
+		<div class="pontuacao" id="tempo_medio"></div>
+	</div>
+	<div class="libras" id="sinais"></div>
+	<div class="libras" id="tentativa"></div>
+</body>
+<script>
+
+var nomes_masculinos = ["JOSE","JOAO","ANTONIO","FRANCISCO","CARLOS","PAULO","PEDRO","LUCAS","LUIZ","MARCOS","LUIS","GABRIEL","RAFAEL","DANIEL","MARCELO","BRUNO","EDUARDO","FELIPE","RAIMUNDO","RODRIGO","MANOEL","MATEUS","ANDRE","FERNANDO","FABIO","LEONARDO","GUSTAVO","GUILHERME","LEANDRO","TIAGO","ANDERSON","RICARDO","MARCIO","JORGE","SEBASTIAO","ALEXANDRE","ROBERTO","EDSON","DIEGO","VITOR","SERGIO","CLAUDIO","MATHEUS","THIAGO","GERALDO","ADRIANO","LUCIANO","JULIO","RENATO","ALEX","VINICIUS","ROGERIO","SAMUEL","RONALDO","MARIO","FLAVIO","DOUGLAS","IGOR","DAVI","MANUEL","JEFERSON","CICERO","VICTOR","MIGUEL","ROBSON","MAURICIO","DANILO","HENRIQUE","CAIO","REGINALDO","JOAQUIM","BENEDITO","GILBERTO","MARCO","ALAN","NELSON","CRISTIANO","ELIAS","WILSON","VALDIR","EMERSON","LUAN","DAVID","RENAN","SEVERINO","FABRICIO","MAURO","JONAS","GILMAR","JEAN","FABIANO","WESLEY","DIOGO","ADILSON","JAIR","ALESSANDRO","EVERTON","OSVALDO","GILSON","WILLIAN","JOEL","SILVIO","HELIO","MAICON","REINALDO","PABLO","ARTUR","VAGNER","VALTER","CELSO","IVAN","CLEITON","VANDERLEI","VICENTE","ARTHUR","MILTON","DOMINGOS","WAGNER","SANDRO","MOISES","EDILSON","ADEMIR","ADAO","EVANDRO","CESAR","VALMIR","MURILO","JULIANO","EDVALDO","AILTON","JUNIOR","BRENO","NICOLAS","RUAN","ALBERTO","RUBENS","NILTON","AUGUSTO","CLEBER","OSMAR","NILSON","ORLANDO","HUGO","OTAVIO","VINICIOS","ITALO","WILIAN","ALISSON","APARECIDO","ISRAEL","EDMILSON","JOSUE","GERSON","CAUA","SIDNEI","EMANUEL","VALDEMAR","JAIME","EDIVALDO","ARNALDO","MOACIR","DAMIAO","ISMAEL","NIVALDO","JAIRO","ISAIAS","MICHEL","ANGELO","CRISTIAN","WELLINGTON","ALEXANDRO","VALDEMIR","WANDERSON","JAILSON","DENIS","RIAN","CELIO","CLAUDINEI","DENILSON","IAGO","EDER","YURI","CHARLES","MARLON","ALISON","JONATAN","ERIC","ELTON","VALDECIR","WESLEI","NATANAEL","ERICK","AGNALDO","KAUAN","ODAIR","WALTER","ARLINDO","MICHAEL","ALVARO","GEOVANE","EVERALDO","EZEQUIEL","ALMIR","IVO","ADEMAR","RAMON","VALDECI","FILIPE","WILLIAM","JONATAS","IVANILDO","ROMARIO","JACKSON","GILVAN","KAUA","JONATHAN","ALFREDO","NATAN","RAUL","BERNARDO","JOSIAS","RODOLFO","GEAN","LAZARO","LUCIO","JOSIMAR","VILMAR","JEFFERSON","ALCIDES","VALDOMIRO","ARMANDO","ROMULO","CASSIO","EDNALDO","WELITON","AIRTON","CLAUDEMIR","WELINGTON","CAIQUE","RICHARD","LAERCIO","PATRICK","AFONSO","CLOVIS","ADALBERTO","EDMAR","ENZO","JURANDIR","EDGAR","EDIMILSON","HUMBERTO","SAULO","ALEXSANDRO","CAUAN","JUAN","EDINALDO","SIDNEY","EVALDO","JONATA","ADAILTON","KAIQUE","ARI","VILSON","ITAMAR","DIVINO","JUAREZ","GENIVALDO","DIRCEU","DARCI","COSME","AMILTON","ERIK","ROGER","LAURO","ROQUE","VALDINEI","ANDREI","LINDOMAR","JHONATAN","LORIVAL","MARIA","MAGNO","DEIVID","ERIVALDO","ROBERT","MARCUS","RUI","WENDEL","JOELSON","ELIO","OSCAR","INACIO","DONIZETE","JAILTON","ISAC","FREDERICO","HEITOR","GEORGE","AMAURI","ROMILDO"];
+var nomes_femininos = ["MARIA","ANA","FRANCISCA","ANTONIA","ADRIANA","JULIANA","MARCIA","FERNANDA","PATRICIA","ALINE","SANDRA","CAMILA","AMANDA","BRUNA","JESSICA","LETICIA","JULIA","LUCIANA","VANESSA","MARIANA","GABRIELA","VERA","VITORIA","LARISSA","CLAUDIA","BEATRIZ","RITA","LUANA","SONIA","RENATA","ELIANE","JOSEFA","SIMONE","NATALIA","CRISTIANE","CARLA","DEBORA","ROSANGELA","JAQUELINE","ROSA","APARECIDA","DANIELA","MARLENE","TEREZINHA","RAIMUNDA","ANDREIA","FABIANA","LUCIA","RAQUEL","ANGELA","RAFAELA","JOANA","LUZIA","ELAINE","REGINA","DANIELE","SUELI","DAIANE","ALESSANDRA","ISABEL","SARA","BIANCA","FLAVIA","ERICA","VIVIANE","SILVANA","PRISCILA","PAULA","LUIZA","TEREZA","ISABELA","MARTA","CAROLINE","JANAINA","LAURA","MARLI","TATIANE","MARINA","SILVIA","MONICA","TAIS","MICHELE","SOLANGE","EDNA","FATIMA","HELENA","CRISTINA","ALICE","CAROLINA","ROSANA","ANDRESSA","CELIA","VALERIA","ELIANA","SABRINA","ANDREA","TANIA","BARBARA","THAIS","DENISE","ROSELI","GISELE","MARILENE","KATIA","EVA","MILENA","EDUARDA","ELISANGELA","VILMA","GEOVANA","LUCIENE","TAMIRES","TATIANA","ROBERTA","ELZA","TALITA","MARCELA","PAMELA","VANIA","IRENE","JOSIANE","LIVIA","CINTIA","IVONE","LAIS","BENEDITA","SEBASTIANA","TAINA","JOICE","MIRIAN","ELIZABETE","ANGELICA","GABRIELE","BRENDA","VERONICA","ROSILENE","KARINA","NAIR","NEUSA","MARGARIDA","NEUZA","NEIDE","RAISSA","MAIARA","LORENA","FRANCIELE","SAMARA","LILIAN","JANETE","CICERA","GIOVANA","SEVERINA","LARA","CLEIDE","NICOLE","CECILIA","YASMIN","CONCEICAO","INGRID","SELMA","LEILA","RAIANE","ESTER","REGIANE","MARISA","EUNICE","KELLY","TAINARA","IARA","JOELMA","MARINALVA","TERESINHA","REBECA","GERALDA","CLEONICE","ALEXANDRA","MARA","JENIFER","ELIZANGELA","LILIANE","LIDIA","IRACEMA","LIDIANE","IRACI","MARILIA","SHEILA","INES","NAIARA","POLIANA","DALVA","LURDES","TERESA","ZILDA","LUCILENE","CLARA","ROSANE","IVONETE","LUCIANE","ISADORA","NILZA","PALOMA","CARMEM","SUELEN","ROSIMEIRE","CLEUSA","VANDA","ILDA","JANE","ELIENE","MAYARA","DIANA","SOFIA","ARIANE","SUZANA","MARIANE","CLARICE","DAIANA","EDILENE","MIRIAM","ELISABETE","ELIETE","KARINE","JUSSARA","IZABEL","ODETE","KAREN","LUISA","CASSIA","ALANA","MONIQUE","CATIA","LUCIMAR","DEISE","ISABELE","KEILA","EVELIN","ANDREZA","ADRIELE","JOSEANE","LOURDES","YASMIM","ALZIRA","CARINA","ERIKA","GISLAINE","EMILY","JAMILE","CLAUDETE","CATARINA","GESSICA","MANUELA","TELMA","ELEN","ARLETE","GENI","HELOISA","ELIZETE","VALDIRENE","VALQUIRIA","ELOISA","NADIR","JULIANE","ZELIA","JANDIRA","DIRCE","EMILI","CARMEN","FABIOLA","AMELIA","REJANE","ESTEFANI","MAIRA","ANNA","ELISA","RUTE","ELIZABETH","LUZINETE","IOLANDA","PRICILA","ROSALINA","MADALENA","LEIDIANE","ROSEANE","MAISA","OLGA","CAMILE","EMILIA","FABIANE","NADIA","MARILDA","EDITE","VIVIAN","PAOLA","NATHALIA","CLEUZA","LUCIMARA","TAMARA","GLAUCIA","LIGIA"];
+var nomes = [...nomes_femininos, ...nomes_masculinos]
+var nome_escolhido = "";
+var posicao_cursor = 0;
+
+//-------placar-------
+var acertos = 0;
+var erros = 0;
+var tempo_inicial;
+var ultimo_tempo = -1;
+var primeira_vez = true;
+
+function main() {
+	escolher_nome();
+	var body = document.getElementById("body");
+	body.onkeypress = tecla_pressionada;
+}
+
+function tecla_pressionada(event) {
+	var letra = event.key.toUpperCase();
+
+	console.log(letra);
+
+	var acerto = false;
+
+	if(letra == nome_escolhido[posicao_cursor]) {
+		acerto = true;
+		var chute = document.getElementById("#" + posicao_cursor);
+		chute.innerText = letra;
+		chute.className = "letra";
+
+		posicao_cursor += 1;
+
+		if(posicao_cursor >= nome_escolhido.length) {
+			setTimeout(escolher_nome, 3000);
+			atualiza_tempo_medio();
+		} else {
+			chute = document.getElementById("#" + posicao_cursor);
+			chute.className = "letra cursor";
+			chute.innerText = "_";
+		}
+	} else {
+		var sinais = document.getElementById("sinais");
+		sinais.classList.remove("erro");
+		void sinais.offsetWidth;
+		sinais.classList.add("erro");
+	}
+
+	atualiza_placar(acerto);
+}
+
+function atualiza_tempo_medio() {
+	var tempo_atual = Date.now();
+	if(tempo_inicial == undefined)
+		tempo_inicial = tempo_atual;
+
+	var diff = ((tempo_atual - tempo_inicial) / 1000) / nome_escolhido.length;
+	var tempo_medio = ultimo_tempo == -1? diff : (diff * 0.6 + ultimo_tempo * 0.4);
+
+	ultimo_tempo = tempo_medio;
+
+	var tempoMedioDiv = document.getElementById("tempo_medio");
+	tempoMedioDiv.innerText = "Tempo medio (letra): " + tempo_medio.toFixed(2) + "s";
+	
+}
+
+function atualiza_placar(acerto) {
+	if(acerto) {
+		acertos += 1;
+
+		var acertosDiv = document.getElementById("acertos");
+		acertosDiv.innerText = "Acertos: " + acertos;
+
+	} else {
+		erros += 1;
+
+		var errosDiv = document.getElementById("erros");
+		errosDiv.innerText = "Erros: " + erros;
+	}
+}
+
+function escolher_nome() {
+	posicao_cursor = 0;
+	var proximo_id = Math.round(Math.random() * (nomes.length - 1));
+	nome_escolhido = nomes[proximo_id];
+
+	var sinais = document.getElementById("sinais");
+	sinais.innerHTML = "";
+
+	var tentativa = document.getElementById("tentativa");
+	tentativa.innerHTML = "";
+
+	for(var i = 0; i < nome_escolhido.length; i++) {
+		var letra = nome_escolhido[i];
+
+		var sinal = document.createElement("img");
+		sinal.setAttribute("src", "./assets/" + letra + ".jpg")
+		sinal.className = "alfabeto";
+		sinais.appendChild(sinal);
+
+		var chute = document.createElement("div");
+		chute.className = "letra";
+		chute.setAttribute("id", "#" + i);
+
+		if(i == 0) {
+			chute.className = "letra cursor";
+			chute.innerText = "_";
+		}
+		tentativa.appendChild(chute);
+
+	}
+
+	if(!primeira_vez) { 
+		tempo_inicial = Date.now();
+	}
+	
+	primeira_vez = false;
+
+}
+
+</script>
+</html>
