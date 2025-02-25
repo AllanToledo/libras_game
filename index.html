@@ -242,7 +242,7 @@ function escolher_nome() {
 		var letra = nome_escolhido[i];
 
 		var sinal = document.createElement("img");
-		sinal.setAttribute("src", "./assets/" + letra + ".jpg")
+		sinal.setAttribute("src", "./assets/" + letra.toLowerCase() + ".jpg")
 		sinal.className = "alfabeto";
 		sinais.appendChild(sinal);
 
